@@ -1,0 +1,37 @@
+Pipeline{
+    agent any{
+        stages{
+            stage('checkout'){
+                steps{
+                    checkout scm
+                }
+            }
+            stage('build'){
+                steps{
+                    sh """
+                    rm -rf out 
+                    mkdir -p out
+                    javac -d out Hello.java
+                    """
+                
+                }
+                }
+                stage('run'){
+                    steps{
+                        sh """
+                        java -cp out Hello
+                        echo build >> artifact.txt
+                        """
+                    }
+                }
+            
+            post{
+                always{
+                    archiveArtifacts artifacts: 'artifact.txt **/0ut' allowEmptyArchive: false
+                }
+            
+                
+               }
+        }
+    }
+}
