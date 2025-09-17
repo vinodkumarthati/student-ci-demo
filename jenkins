@@ -1,7 +1,7 @@
 Pipeline{
-    agent any{
+    agent any
         stages{
-            stage('checkout'){
+            stage('Checkout'){
                 steps{
                     checkout scm
                 }
@@ -16,22 +16,22 @@ Pipeline{
                 
                 }
                 }
-                stage('run'){
+                stage('Run'){
                     steps{
                         sh """
                         java -cp out Hello
-                        echo build >> artifact.txt
+                        echo Build_OK > artifact.txt
                         """
                     }
                 }
             
             post{
                 always{
-                    archiveArtifacts artifacts: 'artifact.txt **/0ut' allowEmptyArchive: false
+                    archiveArtifacts artifacts: 'artifact.txt , out/**' , allowEmptyArchive: false
                 }
             
                 
                }
         }
-    }
+    
 }
